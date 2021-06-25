@@ -1,0 +1,158 @@
+<MainMenu>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 40
+
+        canvas.before:
+            Color:
+                rgba: (100/255,100/255,100/255,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Image:
+            source: 'logo.png'
+            size_hint: 1, 1
+
+        Button:
+            size_hint: 1, 0.4
+            text: 'Начать'
+            on_press: root.manager.current = 'chooser'
+
+        Button:
+            size_hint: 1, 0.4
+            text: 'Справка'
+            on_press: root.manager.current = 'htu'
+        Button:
+            size_hint: 1, 0.4
+            text: 'О разработчике'
+            on_press: root.manager.current = 'devs'
+
+        Label:
+            text: ''
+
+<SelectPit>:
+    BoxLayout:
+        orientation: 'horizontal'
+        canvas:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'pit2.png'
+        Button:
+            size_hint: 1, 0.1
+            text: 'Отчистить'
+            on_press: root.undo()
+        Button:
+            size_hint: 1, 0.1
+            text: 'Далее'
+            on_press: root.export_to_png('pit.png')
+            on_release: root.manager.current = 'calcobj'
+
+
+
+
+
+<Filechooser>:
+    label: label
+    # Providing the orentation
+    orientation: 'vertical'
+
+
+    BoxLayout:
+        FileChooserIconView:
+            canvas.before:
+                Color:
+                    rgb: .5, .4, .5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            on_selection: root.select(*args)
+
+    Label:
+        id: label
+        size_hint_y: .1
+        canvas.before:
+            Color:
+                rgb: .5, .5, .4
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    Button:
+        size_hint: 1, 0.1
+        text: 'Далее'
+        on_press: root.manager.current = 'selectpit'
+
+<CameraClick>:
+    BoxLayout:
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: False
+        ToggleButton:
+            text: 'Play'
+            on_press: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.capture()
+
+<HowToUse>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: '[b]Road Master (прототипная версия)[/b]\nИнструкция для использования приложения\nПосле нажатия кнопки <Начать> откроется окно выбора файла,\nв котором необходимо выбрать нужное нам изображение ямы\nПосле выбора изображения жмем <Далее>,\nпосле чего происходит переход на экран\nв котором необходимо пальцем выделить контур ямы\nпосле чего произойдет переход на следующий экран\nв котором нам необходимо ввести данные нашего референс-объекта,\nа именно его длину и ширину после чего нажимаем\nкнопку <Вычислить> и переходим на следующий экран\nс готовым результатом'
+            markup: True
+        Button:
+            size_hint: 1, 0.1
+            text: 'Вернуться'
+            on_press: root.manager.current = 'menu'
+
+
+<CalculateObject>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 30
+        Label:
+            text: 'Введите длину референс объекта'
+        TextInput:
+            id: r_length
+        Label:
+            text: 'Введите ширину референс объекта'
+        TextInput:
+            id: r_width
+        Button:
+            text: 'Далее'
+            on_press: root.importimage()
+            on_release: root.manager.current = 'result'
+
+
+<Result>:
+    BoxLayout:
+        orientation: 'horizontal'
+        canvas:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'result.png'
+
+<Devs>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: '[b]О разработчике[/b]\nЛаврененко Георгий Евгеньевич\nПочтовый ящик: roadmasterdev@mail.ru\n'
+            markup: True
+        Button:
+            size_hint: 1, 0.1
+            text: 'Вернуться'
+            on_press: root.manager.current = 'menu'
+
+
+
